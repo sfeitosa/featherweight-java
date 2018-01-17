@@ -119,7 +119,7 @@ classTyping (Class c b attrs (Constr cn pc s ths) meths) ctx ct =
         if (Data.List.all (\(n',n'') -> n' == n'') ths) then
           let p' = Data.List.map (\(tp, nm) -> nm) pc 
               p'' = s ++ (Data.List.map (\(n',n'') -> n') ths) 
-            in True
+            in p' == p''
         else 
           False
       else 
