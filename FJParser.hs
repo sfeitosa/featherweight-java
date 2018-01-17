@@ -32,13 +32,16 @@ type CT = Map String Class
 constr1 = Constr "A" [] [] []
 constr2 = Constr "B" [] [] []
 constr3 = Constr "C" [] [] []
+constr4 = Constr "D" [(TypeClass "Object", "k")] [] [("k", "k")] 
 
-class1 = Class "A" "B" [(TypeClass "Object", "x"), 
+class1 = Class "A" "Object" [(TypeClass "C", "x"), 
                              (TypeClass "Object", "y")] constr1 []
-class2 = Class "B" "C" [(TypeClass "Object", "z")] constr2 [meth1]
-class3 = Class "C" "Object" [(TypeClass "Object", "w")] constr3 [meth2] 
+class2 = Class "B" "Object" [(TypeClass "Object", "z")] constr2 [meth1]
+class3 = Class "C" "Object" [(TypeClass "Object", "w")] constr3 [] 
+class4 = Class "D" "Object" [(TypeClass "Object", "k")] constr4 [meth1]
 
 meth1 = Method (TypeClass "Object") "getA" [(TypeClass "Object", "a")] (Var "a")
 meth2 = Method (TypeClass "Object") "getB" [(TypeClass "Object", "b")] (Var "b")
 
 ct = Data.Map.fromList [("A", class1), ("B", class2), ("C", class3)]
+ctx = Data.Map.fromList [("x", TypeClass "B"), ("y", TypeClass "Object")]
