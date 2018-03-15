@@ -93,6 +93,6 @@ mbody m c ct =
 -----------------------------------------------------------
 isValue :: CT -> Expr -> Bool
 isValue _ (CreateObject c []) = True
-isValue _ (CreateObject c p) = Data.List.all (isValue ct) p
+isValue ct (CreateObject c p) = Data.List.all (isValue ct) p
 isValue _ _ = False
 
