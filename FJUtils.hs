@@ -37,6 +37,21 @@ fields c ct = case (Data.Map.lookup c ct) of
                   case (fields c'' ct) of 
                     Just base -> Just (base ++ attrs)
                     _ -> Nothing
+                _ -> Nothing
+
+-- Function: methods
+-- Objective: Search for a class on class table and returns its methods.
+-- Params: Class name, Class table.
+-- Returns: A monad Maybe containing the methd list of Nothing.
+------------------------------------------------------------------------
+methods :: String -> CT -> Maybe [Method]
+methods "Object" _ = Just []
+methods c ct = case (Data.Map.lookup c ct) of 
+                 Just (Class _ c'' _ _ meths) ->
+                   case (methods c'' ct) of
+                     Just bmeths -> Just (meths ++ bmeths)
+                     _ -> Nothing
+                 _ -> Nothing
 
 
 -- Function: mtype
@@ -53,6 +68,7 @@ mtype m c ct =
       case (Data.List.find (\(Method _ n _ _) -> m == n) meths) of
         Just (Method r _ p _) -> Just (Data.List.map (\(tp, nm) -> tp) p, r)
         _ -> mtype m c' ct
+    _ -> Nothing
 
 -- Function: mbody
 -- Objective: Search for a class on class table, then looks up for a method
@@ -68,6 +84,7 @@ mbody m c ct =
       case (Data.List.find (\(Method _ n _ _) -> m == n) meths) of
         Just (Method _ _ p e) -> Just (Data.List.map (\(tp, nm) -> nm) p, e)
         _ -> mbody m c' ct
+    _ -> Nothing
 
 -- Function: isValue 
 -- Objective: Check if an expression represents a value.
